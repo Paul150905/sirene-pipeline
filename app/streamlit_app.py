@@ -44,7 +44,10 @@ a_min, a_max = int(bornes.a_min[0]), int(bornes.a_max[0])
 
 col1, col2, col3 = st.columns([2, 1, 1])
 with col1:
-    annees = st.slider("Période", a_min, a_max, (max(a_min, a_max - 5), a_max))
+    # Le registre remonte a 1973 et porte des dates sentinelles anterieures. Borner le
+    # curseur a 2000 evite de proposer des periodes ou les premieres annees comptent
+    # une poignee d'evenements, ce qui rend tout taux de croissance ininterpretable.
+    annees = st.slider("Période", max(a_min, 2000), a_max, (a_max - 10, a_max))
 with col2:
     categories = query(
         "SELECT DISTINCT categorie_entreprise FROM main.fct_demographie_mensuelle ORDER BY 1"
@@ -85,9 +88,10 @@ k3.metric("Solde net", f"{int(kpi.solde[0] or 0):,}".replace(",", " "))
 # --- Ou ca accelere ----------------------------------------------------------
 st.subheader("Où la création accélère-t-elle ?")
 st.caption(
-    "Croissance des créations entre la première et la dernière année de la période, "
-    "restreinte aux départements dépassant 500 créations sur la période afin d'éviter "
-    "les variations en pourcentage sur de petits volumes."
+    "Croissance des créations entre la première et la dernière année de la période. "
+    "Sont écartés les départements sous 500 créations sur la période ou sous 100 sur "
+    "l'année de départ : sans ce second seuil, le classement remonte les territoires "
+    "à faible base de comparaison plutôt que ceux qui accélèrent."
 )
 
 acceleration = query(f"""
@@ -112,7 +116,12 @@ acceleration = query(f"""
            round(100.0 * (creations_fin - creations_debut)
                  / nullif(creations_debut, 0), 1) AS "Croissance %"
     FROM bornes
+    -- Deux garde-fous. Le volume sur la periode ecarte les series trop courtes ; le
+    -- volume de l'annee de depart ecarte les taux calcules sur une base minuscule,
+    -- qui font remonter en tete les territoires dont le registre a demarre tard
+    -- plutot que ceux qui accelerent reellement.
     WHERE creations_periode >= 500
+      AND creations_debut >= 100
     ORDER BY "Croissance %" DESC NULLS LAST
     LIMIT 20
 """, tuple(params))
