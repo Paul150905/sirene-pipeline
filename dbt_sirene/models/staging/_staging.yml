@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_etablissements
+    description: >
+      Etablissements du fichier stock, types et renommes. Departement et division NAF
+      derives ici. Unites en diffusion partielle (RGPD) exclues.
+    columns:
+      - name: siret
+        description: Identifiant a 14 caracteres. VARCHAR imperatif (zeros de tete).
+        tests: [unique, not_null]
+      - name: siren
+        tests: [not_null]
+      - name: etat_administratif
+        description: A = actif, F = ferme.
+        tests:
+          - accepted_values:
+              values: ['A', 'F']
+      - name: code_departement
+        description: 2 caracteres, 3 pour les DOM. NULL pour les etablissements a l'etranger.
+
+  - name: stg_unites_legales
+    description: Unites legales du fichier stock. Porte la categorie d'entreprise.
+    columns:
+      - name: siren
+        tests: [unique, not_null]
+      - name: categorie_entreprise
+        tests:
+          - accepted_values:
+              values: ['PME', 'ETI', 'GE']
+              config:
+                severity: warn   # la variable est souvent vide sur les unites recentes
+
+  - name: stg_etablissements_historique
+    description: >
+      Valeurs historisees. Plusieurs lignes par SIRET (une par periode) : pas de test
+      d'unicite sur le SIRET seul, c'est attendu.
+    columns:
+      - name: siret
+        tests: [not_null]
+      - name: etat_administratif
+        tests:
+          - accepted_values:
+              values: ['A', 'F']

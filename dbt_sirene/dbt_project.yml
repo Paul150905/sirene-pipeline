@@ -1,0 +1,28 @@
+name: 'sirene'
+version: '1.0.0'
+config-version: 2
+profile: 'sirene'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  sirene:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: table
+    marts:
+      +materialized: table
+
+seeds:
+  sirene:
+    ref_departements:
+      +column_types:
+        code_departement: varchar
+    ref_naf_sections:
+      +column_types:
+        code_section: varchar

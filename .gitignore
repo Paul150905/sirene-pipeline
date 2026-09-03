@@ -1,0 +1,21 @@
+# Donnees sources : jamais versionnees (plusieurs Go)
+data/
+*.duckdb
+*.duckdb.wal
+*.zip
+*.parquet
+*.csv
+!dbt_sirene/seeds/*.csv
+
+# dbt
+dbt_sirene/target/
+dbt_sirene/dbt_packages/
+dbt_sirene/logs/
+logs/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store

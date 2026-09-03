@@ -1,0 +1,8 @@
+# Placé à la racine du projet dbt : lance dbt avec --profiles-dir .
+sirene:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../sirene.duckdb
+      threads: 4

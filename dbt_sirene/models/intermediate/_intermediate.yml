@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: int_etablissements_enrichis
+    description: Etablissement x unite legale x referentiels geographique et sectoriel.
+    columns:
+      - name: siret
+        tests: [unique, not_null]
+      - name: siren
+        description: Doit toujours exister dans le referentiel des unites legales.
+        tests:
+          - relationships:
+              to: ref('stg_unites_legales')
+              field: siren
+              config:
+                severity: warn   # quelques SIREN orphelins existent dans le repertoire
+      - name: categorie_entreprise
+        tests:
+          - accepted_values:
+              values: ['PME', 'ETI', 'GE', 'NON_RENSEIGNE']
+
+  - name: int_evenements_demographiques
+    description: Table evenementielle, un evenement (creation ou cessation) par ligne.
+    columns:
+      - name: type_evenement
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['CREATION', 'CESSATION']
+      - name: date_evenement
+        tests: [not_null]

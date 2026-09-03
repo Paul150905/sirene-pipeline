@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: sirene
+    description: >
+      Tables brutes chargées par ingestion/load_duckdb.py depuis les fichiers stock
+      mensuels du répertoire SIRENE (INSEE, data.gouv.fr). Aucune transformation.
+    schema: raw
+    tables:
+      - name: etablissements
+        description: État courant des établissements (actifs et fermés).
+      - name: unites_legales
+        description: État courant des unités légales. Porte categorieEntreprise (PME/ETI/GE).
+      - name: etablissements_historique
+        description: >
+          Valeurs historisées des établissements, une ligne par période de validité.
+          Seule source permettant de dater les CESSATIONS (transition A vers F).

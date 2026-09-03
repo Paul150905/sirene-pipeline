@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct_demographie_mensuelle
+    description: >
+      Table de faits. Grain : mois x departement x section NAF x categorie d'entreprise.
+      Repond a la question du projet : ou la creation d'entreprises accelere-t-elle ?
+    columns:
+      - name: cle_fait
+        description: Cle de substitution derivee du grain declare.
+        tests: [unique, not_null]
+      - name: mois
+        tests: [not_null]
+      - name: nb_creations
+        tests: [not_null]
+      - name: code_departement
+        tests:
+          - relationships:
+              to: ref('dim_departement')
+              field: code_departement
+      - name: code_section
+        tests:
+          - relationships:
+              to: ref('dim_naf')
+              field: code_section
+
+  - name: dim_departement
+    columns:
+      - name: code_departement
+        tests: [unique, not_null]
+
+  - name: dim_naf
+    columns:
+      - name: code_section
+        tests: [unique, not_null]

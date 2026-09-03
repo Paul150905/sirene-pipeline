@@ -1,0 +1,22 @@
+code_section,division_min,division_max,libelle_section
+A,1,3,"Agriculture, sylviculture et pêche"
+B,5,9,Industries extractives
+C,10,33,Industrie manufacturière
+D,35,35,"Production et distribution d'électricité, gaz, vapeur"
+E,36,39,"Eau, assainissement, gestion des déchets"
+F,41,43,Construction
+G,45,47,"Commerce, réparation d'automobiles et de motocycles"
+H,49,53,Transports et entreposage
+I,55,56,Hébergement et restauration
+J,58,63,Information et communication
+K,64,66,Activités financières et d'assurance
+L,68,68,Activités immobilières
+M,69,75,"Activités spécialisées, scientifiques et techniques"
+N,77,82,Activités de services administratifs et de soutien
+O,84,84,Administration publique
+P,85,85,Enseignement
+Q,86,88,Santé humaine et action sociale
+R,90,93,"Arts, spectacles et activités récréatives"
+S,94,96,Autres activités de services
+T,97,98,Activités des ménages en tant qu'employeurs
+U,99,99,Activités extra-territoriales
