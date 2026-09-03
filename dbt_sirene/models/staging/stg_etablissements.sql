@@ -41,11 +41,14 @@ final as (
 
     select
         *,
-        -- Departement : les DOM occupent 3 caracteres (971 a 976) ; la Corse
-        -- utilise 2A / 2B, qui sortent correctement d'un left(code, 2).
+        -- Departement : l'outre-mer occupe 3 caracteres, aussi bien pour les DOM
+        -- (971 a 976) que pour les collectivites du Pacifique (986 a 989), dont
+        -- les codes commune commencent par 98. Ne traiter que le prefixe 97
+        -- ecrase la Polynesie, la Nouvelle-Caledonie et Wallis dans un "98"
+        -- inexistant. La Corse (2A / 2B) sort correctement d'un left(code, 2).
         case
             when code_commune is null then null
-            when left(code_commune, 2) = '97' then left(code_commune, 3)
+            when left(code_commune, 2) in ('97', '98') then left(code_commune, 3)
             else left(code_commune, 2)
         end as code_departement,
 

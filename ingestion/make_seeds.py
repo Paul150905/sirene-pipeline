@@ -57,6 +57,17 @@ DEPARTEMENTS = [
     ("971", "Guadeloupe", "Guadeloupe"), ("972", "Martinique", "Martinique"),
     ("973", "Guyane", "Guyane"), ("974", "La Réunion", "La Réunion"),
     ("976", "Mayotte", "Mayotte"),
+    # Collectivites d'outre-mer : absentes de la liste des departements au sens
+    # strict, mais bien presentes dans SIRENE. Les omettre laisse des dizaines de
+    # milliers d'evenements sans rattachement geographique.
+    ("975", "Saint-Pierre-et-Miquelon", "Saint-Pierre-et-Miquelon"),
+    ("977", "Saint-Barthelemy", "Saint-Barthelemy"),
+    ("978", "Saint-Martin", "Saint-Martin"),
+    ("984", "Terres australes et antarctiques", "Terres australes et antarctiques"),
+    ("986", "Wallis-et-Futuna", "Wallis-et-Futuna"),
+    ("987", "Polynesie francaise", "Polynesie francaise"),
+    ("988", "Nouvelle-Caledonie", "Nouvelle-Caledonie"),
+    ("989", "Ile de Clipperton", "Ile de Clipperton"),
 ]
 
 # Sections NAF Rev2 : bornes de divisions (2 premiers chiffres du code APE).
